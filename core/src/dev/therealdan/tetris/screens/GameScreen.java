@@ -26,11 +26,13 @@ public class GameScreen implements Screen, InputProcessor {
 
         app.shapeRenderer.setAutoShapeType(true);
         app.shapeRenderer.begin();
+        instance.playField.render(app.shapeRenderer);
         app.shapeRenderer.end();
     }
 
     @Override
     public void resize(int width, int height) {
+        instance.playField.resize(width, height);
     }
 
     @Override
