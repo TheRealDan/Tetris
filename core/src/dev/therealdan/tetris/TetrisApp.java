@@ -8,7 +8,7 @@ import dev.therealdan.tetris.screens.GameScreen;
 public class TetrisApp extends Game {
 
     public ShapeRenderer shapeRenderer;
-    private SpriteBatch batch;
+    public SpriteBatch batch;
 
     @Override
     public void create() {
@@ -31,6 +31,12 @@ public class TetrisApp extends Game {
 
     @Override
     public void resize(int width, int height) {
+        shapeRenderer.dispose();
+        batch.dispose();
+
+        shapeRenderer = new ShapeRenderer();
+        batch = new SpriteBatch();
+
         getScreen().resize(width, height);
     }
 }

@@ -4,9 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import dev.therealdan.tetris.TetrisApp;
 import dev.therealdan.tetris.game.GameInstance;
 
@@ -14,16 +12,10 @@ public class GameScreen implements Screen, InputProcessor {
 
     final TetrisApp app;
 
-    private ScreenViewport viewport;
-    private OrthographicCamera camera;
-
     private GameInstance instance;
 
     public GameScreen(TetrisApp app) {
         this.app = app;
-
-        camera = new OrthographicCamera();
-        viewport = new ScreenViewport(camera);
 
         instance = new GameInstance();
     }
@@ -32,11 +24,13 @@ public class GameScreen implements Screen, InputProcessor {
     public void render(float delta) {
         ScreenUtils.clear(Color.BLACK);
 
+        app.shapeRenderer.setAutoShapeType(true);
+        app.shapeRenderer.begin();
+        app.shapeRenderer.end();
     }
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height);
     }
 
     @Override
