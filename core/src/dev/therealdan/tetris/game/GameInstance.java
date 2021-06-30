@@ -35,9 +35,15 @@ public class GameInstance {
     }
 
     private boolean canFallFurther() {
-        Tetrimino tetrimino = getFallingTetrimino();
-        for (Square square : tetrimino.getSquares()) {
-            if (tetrimino.getY() + square.getY() <= 0) return false;
+        Tetrimino fallingTetrimino = getFallingTetrimino();
+        for (Square fallingSquare : fallingTetrimino.getSquares()) {
+            if (fallingTetrimino.getY() + fallingSquare.getY() <= 0) return false;
+            for (Tetrimino otherTetrimino : tetriminos) {
+                if (otherTetrimino == fallingTetrimino) continue;
+                for (Square otherSquare : otherTetrimino.getSquares()) {
+                    if (otherTetrimino.getX() + otherSquare.getX() == fallingTetrimino.getX() + fallingSquare.getX() && otherTetrimino.getY() + otherSquare.getY() == fallingTetrimino.getY() + fallingSquare.getY() - 1) return false;
+                }
+            }
         }
 
         return true;
