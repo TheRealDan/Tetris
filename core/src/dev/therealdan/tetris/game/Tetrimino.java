@@ -24,9 +24,14 @@ public class Tetrimino {
 
     public void render(ShapeRenderer shapeRenderer, PlayField playField) {
         float size = playField.getCellSize();
-        shapeRenderer.setColor(getType().getColor());
-        for (Square square : squares)
+        for (Square square : squares) {
+            shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(getType().getColor());
             shapeRenderer.rect(playField.getX(cellX + square.getX()), playField.getY(cellY + square.getY()), size, size);
+            shapeRenderer.set(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(Color.BLACK);
+            shapeRenderer.rect(playField.getX(cellX + square.getX()), playField.getY(cellY + square.getY()), size, size);
+        }
     }
 
     public void moveDown() {
