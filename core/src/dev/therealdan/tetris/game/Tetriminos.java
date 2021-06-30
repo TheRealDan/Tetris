@@ -9,35 +9,40 @@ import java.util.List;
 public class Tetriminos {
 
     private Type type;
-    private float x;
-    private float y;
+    private int cellX;
+    private int cellY;
     private List<Square> squares = new ArrayList<>();
 
-    public Tetriminos(Type type, float x, float y) {
+    public Tetriminos(Type type, int cellX, int cellY) {
         this.type = type;
-        this.x = x;
-        this.y = y;
+        this.cellX = cellX;
+        this.cellY = cellY;
         for (int[] offsets : getType().getOffsets()) {
             squares.add(new Square(type.getColor(), offsets[0], offsets[1]));
         }
     }
 
-    public void render(ShapeRenderer shapeRenderer, float size) {
+    public void render(ShapeRenderer shapeRenderer, PlayField playField) {
+        float size = playField.getCellSize();
         shapeRenderer.setColor(getType().getColor());
         for (Square square : squares)
-            shapeRenderer.rect(x + square.getX() * size, y + square.getY() * size, size, size);
+            shapeRenderer.rect(playField.getX(cellX + square.getX()), playField.getY(cellY + square.getY()), size, size);
+    }
+
+    public void moveDown() {
+        cellY -= 1;
     }
 
     public Type getType() {
         return type;
     }
 
-    public float getX() {
-        return x;
+    public int getX() {
+        return cellX;
     }
 
-    public float getY() {
-        return y;
+    public int getY() {
+        return cellY;
     }
 
     public List<Square> getSquares() {

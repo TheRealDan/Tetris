@@ -6,29 +6,29 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 public class Square {
 
     private Color color;
-    private float x;
-    private float y;
+    private int cellX;
+    private int cellY;
 
-    public Square(Color color, float x, float y) {
+    public Square(Color color, int cellX, int cellY) {
         this.color = color;
-        this.x = x;
-        this.y = y;
+        this.cellX = cellX;
+        this.cellY = cellY;
     }
 
-    public void render(ShapeRenderer shapeRenderer, float size) {
+    public void render(ShapeRenderer shapeRenderer, PlayField playField) {
         shapeRenderer.setColor(getColor());
-        shapeRenderer.rect(getX(), getY(), size, size);
+        shapeRenderer.rect(playField.getX(cellX + getX()), playField.getY(cellY + getY()), playField.getCellSize(), playField.getCellSize());
     }
 
     public Color getColor() {
         return color;
     }
 
-    public float getX() {
-        return x;
+    public int getX() {
+        return cellX;
     }
 
-    public float getY() {
-        return y;
+    public int getY() {
+        return cellY;
     }
 }
