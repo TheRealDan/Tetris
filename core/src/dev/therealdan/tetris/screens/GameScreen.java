@@ -1,6 +1,7 @@
 package dev.therealdan.tetris.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -69,6 +70,15 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        if (Input.Keys.LEFT == keycode || Input.Keys.A == keycode) {
+            instance.getFallingTetrimino().moveLeft();
+            return true;
+        }
+        if (Input.Keys.RIGHT == keycode || Input.Keys.D == keycode) {
+            instance.getFallingTetrimino().moveRight();
+            return true;
+        }
+
         return false;
     }
 

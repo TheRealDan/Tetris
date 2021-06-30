@@ -33,6 +33,13 @@ public class Tetrimino {
         cellY--;
     }
 
+    public void moveLeft() {
+        cellX--;
+    }
+
+    public void moveRight() {
+        cellX++;
+    }
 
     public boolean canMoveDown(GameInstance gameInstance) {
         for (Square square : getSquares()) {
