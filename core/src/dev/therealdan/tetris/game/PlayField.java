@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class PlayField {
 
-    private float cellsWide;
-    private float cellsHigh;
+    private int cellsWide;
+    private int cellsHigh;
 
     private float startY;
     private float cellSize;
@@ -41,11 +41,11 @@ public class PlayField {
         return cellSize;
     }
 
-    public float getCellsWide() {
+    public int getCellsWide() {
         return cellsWide;
     }
 
-    public float getCellsHigh() {
+    public int getCellsHigh() {
         return cellsHigh;
     }
 }
