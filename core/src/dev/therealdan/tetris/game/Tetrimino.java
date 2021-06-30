@@ -30,7 +30,17 @@ public class Tetrimino {
     }
 
     public void moveDown() {
-        cellY -= 1;
+        cellY--;
+    }
+
+
+    public boolean canMoveDown(GameInstance gameInstance) {
+        for (Square square : getSquares()) {
+            if (getY() + square.getY() <= 0) return false;
+            if (gameInstance.isCellOccupied(getX() + square.getX(), getY() + square.getY() - 1)) return false;
+        }
+
+        return true;
     }
 
     public Type getType() {

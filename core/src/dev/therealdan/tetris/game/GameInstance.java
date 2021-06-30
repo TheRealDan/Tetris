@@ -26,7 +26,7 @@ public class GameInstance {
         if (System.currentTimeMillis() - lastPieceFall < fallInterval) return;
         lastPieceFall = System.currentTimeMillis();
 
-        if (canFallFurther()) {
+        if (getFallingTetrimino().canMoveDown(this)) {
             getFallingTetrimino().moveDown();
         } else {
             tetriminos.add(getFallingTetrimino());
@@ -34,22 +34,15 @@ public class GameInstance {
         }
     }
 
-    private boolean canFallFurther() {
-        Tetrimino fallingTetrimino = getFallingTetrimino();
-        for (Square fallingSquare : fallingTetrimino.getSquares()) {
-            if (fallingTetrimino.getY() + fallingSquare.getY() <= 0) return false;
-            for (Tetrimino otherTetrimino : tetriminos) {
-                if (otherTetrimino == fallingTetrimino) continue;
-                for (Square otherSquare : otherTetrimino.getSquares()) {
-                    if (otherTetrimino.getX() + otherSquare.getX() == fallingTetrimino.getX() + fallingSquare.getX() && otherTetrimino.getY() + otherSquare.getY() == fallingTetrimino.getY() + fallingSquare.getY() - 1) return false;
-                }
-            }
-            for (Square otherSquare : squares) {
-                if (otherSquare.getX() == fallingTetrimino.getX() + fallingSquare.getX() && otherSquare.getY() == fallingTetrimino.getY() + fallingSquare.getY() - 1) return false;
-            }
-        }
+    public boolean isCellOccupied(int cellX, int cellY) {
+        for (Tetrimino tetrimino : tetriminos)
+            for (Square square : tetrimino.getSquares())
+                if (tetrimino.getX() + square.getX() == cellX && tetrimino.getY() + square.getY() == cellY) return true;
 
-        return true;
+        for (Square square : squares)
+            if (square.getX() == cellX && square.getY() == cellY) return true;
+
+        return false;
     }
 
     public Tetrimino getFallingTetrimino() {
