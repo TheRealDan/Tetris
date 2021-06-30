@@ -71,11 +71,13 @@ public class GameScreen implements Screen, InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         if (Input.Keys.LEFT == keycode || Input.Keys.A == keycode) {
-            instance.getFallingTetrimino().moveLeft();
+            if (instance.getFallingTetrimino().canMoveLeft(instance))
+                instance.getFallingTetrimino().moveLeft();
             return true;
         }
         if (Input.Keys.RIGHT == keycode || Input.Keys.D == keycode) {
-            instance.getFallingTetrimino().moveRight();
+            if (instance.getFallingTetrimino().canMoveRight(instance))
+                instance.getFallingTetrimino().moveRight();
             return true;
         }
 

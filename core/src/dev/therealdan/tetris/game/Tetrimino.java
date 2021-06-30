@@ -50,6 +50,24 @@ public class Tetrimino {
         return true;
     }
 
+    public boolean canMoveLeft(GameInstance gameInstance) {
+        for (Square square : getSquares()) {
+            if (getX() + square.getX() <= 0) return false;
+            if (gameInstance.isCellOccupied(getX() + square.getX() - 1, getY() + square.getY())) return false;
+        }
+
+        return true;
+    }
+
+    public boolean canMoveRight(GameInstance gameInstance) {
+        for (Square square : getSquares()) {
+            if (getX() + square.getX() >= gameInstance.playField.getCellsWide() - 1) return false;
+            if (gameInstance.isCellOccupied(getX() + square.getX() + 1, getY() + square.getY())) return false;
+        }
+
+        return true;
+    }
+
     public Type getType() {
         return type;
     }
