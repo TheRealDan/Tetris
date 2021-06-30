@@ -44,6 +44,9 @@ public class GameInstance {
                     if (otherTetrimino.getX() + otherSquare.getX() == fallingTetrimino.getX() + fallingSquare.getX() && otherTetrimino.getY() + otherSquare.getY() == fallingTetrimino.getY() + fallingSquare.getY() - 1) return false;
                 }
             }
+            for (Square otherSquare : squares) {
+                if (otherSquare.getX() == fallingTetrimino.getX() + fallingSquare.getX() && otherSquare.getY() == fallingTetrimino.getY() + fallingSquare.getY() - 1) return false;
+            }
         }
 
         return true;
