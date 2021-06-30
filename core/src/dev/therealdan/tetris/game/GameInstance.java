@@ -8,7 +8,7 @@ public class GameInstance {
     public HashSet<Tetriminos> tetriminos = new HashSet<>();
     public HashSet<Square> squares = new HashSet<>();
 
-    public Tetriminos fallingTetrimino;
+    private Tetriminos fallingTetrimino;
     public Tetriminos.Type nextType = Tetriminos.Type.T;
 
     private long fallInterval = 1000;
@@ -23,11 +23,23 @@ public class GameInstance {
     }
 
     private void handleFallingPieces() {
-        if (fallingTetrimino == null) fallingTetrimino = new Tetriminos(nextType, nextType.getSpawnXOffset(playField.getCellsWide()), playField.getCellsHigh());
-
         if (System.currentTimeMillis() - lastPieceFall < fallInterval) return;
         lastPieceFall = System.currentTimeMillis();
 
-        fallingTetrimino.moveDown();
+        if (canFallFurther()) {
+            getFallingTetrimino().moveDown();
+        } else {
+            tetriminos.add(getFallingTetrimino());
+            fallingTetrimino = null;
+        }
+    }
+
+    private boolean canFallFurther() {
+        return true;
+    }
+
+    public Tetriminos getFallingTetrimino() {
+        if (fallingTetrimino == null) fallingTetrimino = new Tetriminos(nextType, nextType.getSpawnXOffset(playField.getCellsWide()), playField.getCellsHigh());
+        return fallingTetrimino;
     }
 }

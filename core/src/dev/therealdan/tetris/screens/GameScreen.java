@@ -36,7 +36,7 @@ public class GameScreen implements Screen, InputProcessor {
             tetriminos.render(app.shapeRenderer, instance.playField);
         for (Square square : instance.squares)
             square.render(app.shapeRenderer, instance.playField);
-        instance.fallingTetrimino.render(app.shapeRenderer, instance.playField);
+        instance.getFallingTetrimino().render(app.shapeRenderer, instance.playField);
         app.shapeRenderer.end();
     }
 
