@@ -1,15 +1,17 @@
 package dev.therealdan.tetris.game;
 
 import java.util.HashSet;
+import java.util.Random;
 
 public class GameInstance {
+
+    private Random random = new Random();
 
     public PlayField playField;
     public HashSet<Tetrimino> tetriminos = new HashSet<>();
     public HashSet<Square> squares = new HashSet<>();
 
     private Tetrimino fallingTetrimino;
-    public Tetrimino.Type nextType = Tetrimino.Type.T;
 
     private long fallInterval = 1000;
     private long lastPieceFall = System.currentTimeMillis();
@@ -46,7 +48,14 @@ public class GameInstance {
     }
 
     public Tetrimino getFallingTetrimino() {
-        if (fallingTetrimino == null) fallingTetrimino = new Tetrimino(nextType, nextType.getSpawnXOffset(playField.getCellsWide()), playField.getCellsHigh());
+        if (fallingTetrimino == null) {
+            Tetrimino.Type nextType = getNextType();
+            fallingTetrimino = new Tetrimino(nextType, nextType.getSpawnXOffset(playField.getCellsWide()), playField.getCellsHigh());
+        }
         return fallingTetrimino;
+    }
+
+    private Tetrimino.Type getNextType() {
+        return Tetrimino.Type.values()[random.nextInt(Tetrimino.Type.values().length - 1)];
     }
 }
