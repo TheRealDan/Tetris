@@ -23,7 +23,7 @@ public class GameInstance {
     }
 
     private void handleFallingPieces() {
-        if (fallingTetrimino == null) fallingTetrimino = new Tetriminos(nextType, (int) playField.getCellsWide() / 2 - 2, (int) playField.getCellsHigh());
+        if (fallingTetrimino == null) fallingTetrimino = new Tetriminos(nextType, nextType.getSpawnXOffset(playField.getCellsWide()), (int) playField.getCellsHigh());
 
         if (System.currentTimeMillis() - lastPieceFall < fallInterval) return;
         lastPieceFall = System.currentTimeMillis();

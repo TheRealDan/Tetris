@@ -52,6 +52,21 @@ public class Tetriminos {
     public enum Type {
         I, O, T, J, L, S, Z;
 
+        public int getSpawnXOffset(int cellsWidth) {
+            switch (this) {
+                case I:
+                    return cellsWidth / 2 - 2;
+                case O:
+                case T:
+                case J:
+                case L:
+                case S:
+                case Z:
+                    return cellsWidth / 2 - 1;
+            }
+            return 0;
+        }
+
         public int[][] getOffsets() {
             switch (this) {
                 case I:
