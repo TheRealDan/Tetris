@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import dev.therealdan.tetris.TetrisApp;
 import dev.therealdan.tetris.game.GameInstance;
 import dev.therealdan.tetris.game.Square;
-import dev.therealdan.tetris.game.Tetriminos;
+import dev.therealdan.tetris.game.Tetrimino;
 
 public class GameScreen implements Screen, InputProcessor {
 
@@ -32,8 +32,8 @@ public class GameScreen implements Screen, InputProcessor {
         app.shapeRenderer.begin();
         app.shapeRenderer.setColor(Color.WHITE);
         instance.playField.render(app.shapeRenderer);
-        for (Tetriminos tetriminos : instance.tetriminos)
-            tetriminos.render(app.shapeRenderer, instance.playField);
+        for (Tetrimino tetrimino : instance.tetriminos)
+            tetrimino.render(app.shapeRenderer, instance.playField);
         for (Square square : instance.squares)
             square.render(app.shapeRenderer, instance.playField);
         instance.getFallingTetrimino().render(app.shapeRenderer, instance.playField);

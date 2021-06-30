@@ -5,11 +5,11 @@ import java.util.HashSet;
 public class GameInstance {
 
     public PlayField playField;
-    public HashSet<Tetriminos> tetriminos = new HashSet<>();
+    public HashSet<Tetrimino> tetriminos = new HashSet<>();
     public HashSet<Square> squares = new HashSet<>();
 
-    private Tetriminos fallingTetrimino;
-    public Tetriminos.Type nextType = Tetriminos.Type.T;
+    private Tetrimino fallingTetrimino;
+    public Tetrimino.Type nextType = Tetrimino.Type.T;
 
     private long fallInterval = 1000;
     private long lastPieceFall = System.currentTimeMillis();
@@ -38,8 +38,8 @@ public class GameInstance {
         return true;
     }
 
-    public Tetriminos getFallingTetrimino() {
-        if (fallingTetrimino == null) fallingTetrimino = new Tetriminos(nextType, nextType.getSpawnXOffset(playField.getCellsWide()), playField.getCellsHigh());
+    public Tetrimino getFallingTetrimino() {
+        if (fallingTetrimino == null) fallingTetrimino = new Tetrimino(nextType, nextType.getSpawnXOffset(playField.getCellsWide()), playField.getCellsHigh());
         return fallingTetrimino;
     }
 }

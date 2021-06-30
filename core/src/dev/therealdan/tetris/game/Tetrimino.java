@@ -6,14 +6,14 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tetriminos {
+public class Tetrimino {
 
     private Type type;
     private int cellX;
     private int cellY;
     private List<Square> squares = new ArrayList<>();
 
-    public Tetriminos(Type type, int cellX, int cellY) {
+    public Tetrimino(Type type, int cellX, int cellY) {
         this.type = type;
         this.cellX = cellX;
         this.cellY = cellY;
