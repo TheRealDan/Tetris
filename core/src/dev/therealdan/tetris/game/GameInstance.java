@@ -16,14 +16,36 @@ public class GameInstance {
 
     private long fallInterval = 1000;
     private long lastPieceFall = System.currentTimeMillis();
+    private boolean gameover = false;
 
     public GameInstance() {
         playField = new PlayField(10, 20);
     }
 
     public void loop(float delta) {
+        if (gameover) return;
+
         handleFallingPieces();
         checkClearLines();
+        checkStackOverflow();
+    }
+
+    private void checkStackOverflow() {
+        for (Tetrimino tetrimino : tetriminos) {
+            for (Square square : tetrimino.getSquares()) {
+                if (tetrimino.getY() + square.getY() >= playField.getCellsHigh()) {
+                    gameover = true;
+                    return;
+                }
+            }
+        }
+
+        for (Square square : squares) {
+            if (square.getY() >= playField.getCellsHigh()) {
+                gameover = true;
+                return;
+            }
+        }
     }
 
     private void handleFallingPieces() {
