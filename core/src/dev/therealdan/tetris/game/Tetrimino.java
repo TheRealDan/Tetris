@@ -48,9 +48,8 @@ public class Tetrimino {
 
     public void rotate() {
         List<Square> squares = new ArrayList<>();
-        for (Square square : getSquares()) {
-            squares.add(new Square(square.getColor(), -square.getY(), square.getX()));
-        }
+        for (Square square : getSquares())
+            squares.add(new Square(square.getColor(), square.getY(), -square.getX()));
         this.squares = squares;
     }
 
