@@ -1,8 +1,6 @@
 package dev.therealdan.tetris.game;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
+import java.util.*;
 
 public class GameInstance {
 
@@ -11,10 +9,11 @@ public class GameInstance {
     public PlayField playField;
     public HashSet<Tetrimino> tetriminos = new HashSet<>();
     public HashSet<Square> squares = new HashSet<>();
-
-    private Tetrimino fallingTetrimino;
+    public Deque<Tetrimino.Type> tetriminoQueue = new ArrayDeque<>();
 
     private long fallInterval = 1000;
+
+    private Tetrimino fallingTetrimino;
     private long lastPieceFall = System.currentTimeMillis();
     private boolean gameover = false;
 
@@ -25,9 +24,15 @@ public class GameInstance {
     public void loop(float delta) {
         if (gameover) return;
 
+        fillQueue();
         handleFallingPieces();
         checkClearLines();
         checkStackOverflow();
+    }
+
+    private void fillQueue() {
+        while (tetriminoQueue.size() < 4)
+            tetriminoQueue.add(Tetrimino.Type.values()[random.nextInt(Tetrimino.Type.values().length)]);
     }
 
     private void checkStackOverflow() {
@@ -117,13 +122,9 @@ public class GameInstance {
 
     public Tetrimino getFallingTetrimino() {
         if (fallingTetrimino == null) {
-            Tetrimino.Type nextType = getNextType();
+            Tetrimino.Type nextType = tetriminoQueue.poll();
             fallingTetrimino = new Tetrimino(nextType, nextType.getSpawnXOffset(playField.getCellsWide()), playField.getCellsHigh());
         }
         return fallingTetrimino;
-    }
-
-    private Tetrimino.Type getNextType() {
-        return Tetrimino.Type.values()[random.nextInt(Tetrimino.Type.values().length)];
     }
 }

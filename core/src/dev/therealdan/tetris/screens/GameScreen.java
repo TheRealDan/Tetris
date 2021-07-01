@@ -31,6 +31,7 @@ public class GameScreen implements Screen, InputProcessor {
 
         app.shapeRenderer.setAutoShapeType(true);
         app.shapeRenderer.begin();
+
         app.shapeRenderer.setColor(Color.WHITE);
         instance.playField.render(app.shapeRenderer);
         for (Tetrimino tetrimino : instance.tetriminos)
@@ -38,6 +39,13 @@ public class GameScreen implements Screen, InputProcessor {
         for (Square square : instance.squares)
             square.render(app.shapeRenderer, instance.playField);
         instance.getFallingTetrimino().render(app.shapeRenderer, instance.playField);
+
+        float queueX = instance.playField.getX(0) / 2f;
+        float queueY = instance.playField.getY(instance.playField.getCellsHigh()) - instance.playField.getCellSize();
+        for (Tetrimino.Type type : instance.tetriminoQueue) {
+            new Tetrimino(type, 0, 0).render(app.shapeRenderer, queueX, queueY -= instance.playField.getCellSize() * 4, instance.playField.getCellSize());
+        }
+
         app.shapeRenderer.end();
     }
 
