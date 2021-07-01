@@ -46,6 +46,14 @@ public class Tetrimino {
         cellX++;
     }
 
+    public void rotate() {
+        List<Square> squares = new ArrayList<>();
+        for (Square square : getSquares()) {
+            squares.add(new Square(square.getColor(), -square.getY(), square.getX()));
+        }
+        this.squares = squares;
+    }
+
     public boolean canMoveDown(GameInstance gameInstance) {
         for (Square square : getSquares()) {
             if (getY() + square.getY() <= 0) return false;
@@ -110,19 +118,19 @@ public class Tetrimino {
         public int[][] getOffsets() {
             switch (this) {
                 case I:
-                    return new int[][]{{0, 0}, {1, 0}, {2, 0}, {3, 0}};
+                    return new int[][]{{-2, 0}, {-1, 0}, {0, 0}, {1, 0}};
                 case O:
-                    return new int[][]{{0, 0}, {1, 0}, {0, -1}, {1, -1}};
+                    return new int[][]{{-1, 0}, {0, 0}, {-1, -1}, {0, -1}};
                 case T:
-                    return new int[][]{{0, 0}, {1, 0}, {2, 0}, {1, -1}};
+                    return new int[][]{{0, 0}, {-1, 0}, {1, 0}, {0, 1}};
                 case J:
-                    return new int[][]{{1, 0}, {1, -1}, {1, -2}, {0, -2}};
+                    return new int[][]{{-1, 1}, {-1, 0}, {0, 0}, {1, 0}};
                 case L:
-                    return new int[][]{{0, 0}, {0, -1}, {0, -2}, {1, -2}};
+                    return new int[][]{{-1, 0}, {0, 0}, {1, 0}, {1, 1}};
                 case S:
-                    return new int[][]{{1, 0}, {2, 0}, {0, -1}, {1, -1}};
+                    return new int[][]{{-1, 0}, {0, 0}, {0, 1}, {1, 1}};
                 case Z:
-                    return new int[][]{{0, 0}, {1, 0}, {1, -1}, {2, -1}};
+                    return new int[][]{{-1, 1}, {0, 1}, {0, 0}, {1, 0}};
             }
             return null;
         }

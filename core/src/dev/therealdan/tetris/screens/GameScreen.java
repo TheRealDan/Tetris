@@ -85,6 +85,10 @@ public class GameScreen implements Screen, InputProcessor {
                 instance.getFallingTetrimino().moveDown();
             return true;
         }
+        if (Input.Keys.R == keycode) {
+            instance.getFallingTetrimino().rotate();
+            return true;
+        }
 
         return false;
     }
