@@ -1,5 +1,6 @@
 package dev.therealdan.tetris.game;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -22,6 +23,7 @@ public class GameInstance {
 
     public void loop(float delta) {
         handleFallingPieces();
+        checkClearLines();
     }
 
     private void handleFallingPieces() {
@@ -33,7 +35,6 @@ public class GameInstance {
         } else {
             tetriminos.add(getFallingTetrimino());
             fallingTetrimino = null;
-            checkClearLines();
         }
     }
 
@@ -45,6 +46,7 @@ public class GameInstance {
                     continue next;
             }
             clearLine(y);
+            return;
         }
     }
 
@@ -58,9 +60,12 @@ public class GameInstance {
                 squares.add(new Square(tetrimino.getType().getColor(), tetrimino.getX() + square.getX(), tetrimino.getY() + square.getY()));
             }
         }
+        for (Square square : new ArrayList<>(squares))
+            if (square.getY() == y)
+                squares.remove(square);
 
         for (Tetrimino tetrimino : tetriminos)
-            if (tetrimino.getY() > y && tetrimino.canMoveDown(this))
+            if (tetrimino.getY() > y)
                 tetrimino.moveDown();
 
         for (Square square : squares)
