@@ -58,6 +58,14 @@ public class GameInstance {
                 squares.add(new Square(tetrimino.getType().getColor(), tetrimino.getX() + square.getX(), tetrimino.getY() + square.getY()));
             }
         }
+
+        for (Tetrimino tetrimino : tetriminos)
+            if (tetrimino.getY() > y && tetrimino.canMoveDown(this))
+                tetrimino.moveDown();
+
+        for (Square square : squares)
+            if (square.getY() > y)
+                square.moveDown();
     }
 
     public boolean isCellOccupied(int cellX, int cellY) {

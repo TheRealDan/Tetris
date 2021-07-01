@@ -25,6 +25,10 @@ public class Square {
         shapeRenderer.rect(playField.getX(getX()), playField.getY(getY()), size, size);
     }
 
+    public void moveDown() {
+        cellY--;
+    }
+
     public Color getColor() {
         return color;
     }
