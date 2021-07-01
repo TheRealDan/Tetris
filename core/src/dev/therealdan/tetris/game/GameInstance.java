@@ -33,6 +33,31 @@ public class GameInstance {
         } else {
             tetriminos.add(getFallingTetrimino());
             fallingTetrimino = null;
+            checkClearLines();
+        }
+    }
+
+    private void checkClearLines() {
+        next:
+        for (int y = 0; y < playField.getCellsHigh(); y++) {
+            for (int x = 0; x < playField.getCellsWide(); x++) {
+                if (!isCellOccupied(x, y))
+                    continue next;
+            }
+            clearLine(y);
+        }
+    }
+
+    private void clearLine(int y) {
+        System.out.println("Clearing line " + y);
+        for (int x = 0; x < playField.getCellsWide(); x++) {
+            Tetrimino tetrimino = getTetrimino(x, y);
+            if (tetrimino == null) continue;
+            tetriminos.remove(tetrimino);
+            for (Square square : tetrimino.getSquares()) {
+                if (tetrimino.getY() + square.getY() == y) continue;
+                squares.add(new Square(tetrimino.getType().getColor(), tetrimino.getX() + square.getX(), tetrimino.getY() + square.getY()));
+            }
         }
     }
 
@@ -45,6 +70,15 @@ public class GameInstance {
             if (square.getX() == cellX && square.getY() == cellY) return true;
 
         return false;
+    }
+
+    public Tetrimino getTetrimino(int cellX, int cellY) {
+        for (Tetrimino tetrimino : tetriminos)
+            for (Square square : tetrimino.getSquares())
+                if (tetrimino.getX() + square.getX() == cellX && tetrimino.getY() + square.getY() == cellY)
+                    return tetrimino;
+
+        return null;
     }
 
     public Tetrimino getFallingTetrimino() {
