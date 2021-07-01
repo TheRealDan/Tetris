@@ -100,18 +100,7 @@ public class Tetrimino {
         I, O, T, J, L, S, Z;
 
         public int getSpawnXOffset(int cellsWidth) {
-            switch (this) {
-                case I:
-                    return cellsWidth / 2 - 2;
-                case O:
-                case T:
-                case J:
-                case L:
-                case S:
-                case Z:
-                    return cellsWidth / 2 - 1;
-            }
-            return 0;
+            return cellsWidth / 2;
         }
 
         public int[][] getOffsets() {
