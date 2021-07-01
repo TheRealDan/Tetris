@@ -102,6 +102,6 @@ public class GameInstance {
     }
 
     private Tetrimino.Type getNextType() {
-        return Tetrimino.Type.values()[random.nextInt(Tetrimino.Type.values().length - 1)];
+        return Tetrimino.Type.values()[random.nextInt(Tetrimino.Type.values().length)];
     }
 }
