@@ -34,6 +34,10 @@ public class Tetrimino {
         }
     }
 
+    public void moveUp() {
+        cellY++;
+    }
+
     public void moveDown() {
         cellY--;
     }
@@ -46,11 +50,20 @@ public class Tetrimino {
         cellX++;
     }
 
-    public void rotate() {
+    public void rotate(PlayField playField) {
         List<Square> squares = new ArrayList<>();
         for (Square square : getSquares())
             squares.add(new Square(square.getColor(), square.getY(), -square.getX()));
         this.squares = squares;
+
+        for (Square square : getSquares()) {
+            if (getX() + square.getX() > playField.getCellsWide())
+                moveLeft();
+            if (getX() + square.getX() < 0)
+                moveRight();
+            if (getY() + square.getY() < 0)
+                moveUp();
+        }
     }
 
     public boolean canMoveDown(GameInstance gameInstance) {
