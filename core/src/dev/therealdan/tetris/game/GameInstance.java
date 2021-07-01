@@ -49,7 +49,6 @@ public class GameInstance {
     }
 
     private void clearLine(int y) {
-        System.out.println("Clearing line " + y);
         for (int x = 0; x < playField.getCellsWide(); x++) {
             Tetrimino tetrimino = getTetrimino(x, y);
             if (tetrimino == null) continue;
