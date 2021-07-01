@@ -17,7 +17,7 @@ public class Square {
 
     public void render(ShapeRenderer shapeRenderer, PlayField playField) {
         shapeRenderer.setColor(getColor());
-        shapeRenderer.rect(playField.getX(cellX + getX()), playField.getY(cellY + getY()), playField.getCellSize(), playField.getCellSize());
+        shapeRenderer.rect(playField.getX(getX()), playField.getY(getY()), playField.getCellSize(), playField.getCellSize());
     }
 
     public Color getColor() {
