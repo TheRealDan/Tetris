@@ -50,19 +50,26 @@ public class Tetrimino {
         cellX++;
     }
 
-    public void rotate(PlayField playField) {
+    public void rotate(GameInstance gameInstance) {
         List<Square> squares = new ArrayList<>();
         for (Square square : getSquares())
             squares.add(new Square(square.getColor(), square.getY(), -square.getX()));
         this.squares = squares;
 
         for (Square square : getSquares()) {
-            if (getX() + square.getX() > playField.getCellsWide())
+            if (getX() + square.getX() > gameInstance.playField.getCellsWide())
                 moveLeft();
             if (getX() + square.getX() < 0)
                 moveRight();
             if (getY() + square.getY() < 0)
                 moveUp();
+        }
+
+        for (Square square : getSquares()) {
+            if (gameInstance.isCellOccupied(getX() + square.getX(), getY() + square.getY())) {
+                rotate(gameInstance);
+                return;
+            }
         }
     }
 
