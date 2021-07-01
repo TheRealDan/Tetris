@@ -57,7 +57,7 @@ public class Tetrimino {
         this.squares = squares;
 
         for (Square square : getSquares()) {
-            if (getX() + square.getX() > gameInstance.playField.getCellsWide())
+            if (getX() + square.getX() >= gameInstance.playField.getCellsWide())
                 moveLeft();
             if (getX() + square.getX() < 0)
                 moveRight();
