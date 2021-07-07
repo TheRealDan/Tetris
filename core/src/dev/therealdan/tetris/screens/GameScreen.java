@@ -6,10 +6,10 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.ScreenUtils;
-import dev.therealdan.tetris.TetrisApp;
 import dev.therealdan.tetris.game.GameInstance;
 import dev.therealdan.tetris.game.Square;
 import dev.therealdan.tetris.game.Tetrimino;
+import dev.therealdan.tetris.main.TetrisApp;
 
 public class GameScreen implements Screen, InputProcessor {
 
@@ -42,11 +42,17 @@ public class GameScreen implements Screen, InputProcessor {
 
         float queueX = instance.playField.getX(0) / 2f;
         float queueY = instance.playField.getY(instance.playField.getCellsHigh()) - instance.playField.getCellSize();
-        for (Tetrimino.Type type : instance.tetriminoQueue) {
+        for (Tetrimino.Type type : instance.tetriminoQueue)
             new Tetrimino(type, 0, 0).render(app.shapeRenderer, queueX, queueY -= instance.playField.getCellSize() * 4, instance.playField.getCellSize());
-        }
 
         app.shapeRenderer.end();
+
+        float scoreX = instance.playField.getX(instance.playField.getCellsWide()) + queueX;
+        float scoreY = instance.playField.getY(instance.playField.getCellsHigh()) - instance.playField.getCellSize();
+        app.batch.begin();
+        app.font.center(app.batch, "Score: " + instance.score, scoreX, scoreY, 24);
+        app.batch.end();
+
     }
 
     @Override

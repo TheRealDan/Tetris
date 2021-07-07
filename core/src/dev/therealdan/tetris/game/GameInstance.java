@@ -10,12 +10,15 @@ public class GameInstance {
     public HashSet<Tetrimino> tetriminos = new HashSet<>();
     public HashSet<Square> squares = new HashSet<>();
     public Deque<Tetrimino.Type> tetriminoQueue = new ArrayDeque<>();
+    public double score = 0;
 
     private long fallInterval = 1000;
 
     private Tetrimino fallingTetrimino;
     private long lastPieceFall = System.currentTimeMillis();
     private boolean gameover = false;
+    private int linesCleared = 0;
+    private int tetris = 0;
 
     public GameInstance() {
         playField = new PlayField(10, 20);
@@ -72,9 +75,19 @@ public class GameInstance {
                 if (!isCellOccupied(x, y))
                     continue next;
             }
+            linesCleared++;
+            score += 100;
+            if (linesCleared >= 4) {
+                linesCleared = 0;
+                score += tetris > 0 ? 800 : 400;
+                tetris++;
+            }
             clearLine(y);
             return;
         }
+
+        if (linesCleared > 0) tetris = 0;
+        linesCleared = 0;
     }
 
     private void clearLine(int y) {
