@@ -11,9 +11,12 @@ import dev.therealdan.tetris.game.Square;
 import dev.therealdan.tetris.game.Tetrimino;
 import dev.therealdan.tetris.main.TetrisApp;
 
+import java.text.DecimalFormat;
+
 public class GameScreen implements Screen, InputProcessor {
 
-    final TetrisApp app;
+    private final TetrisApp app;
+    private DecimalFormat format = new DecimalFormat("###,###");
 
     private GameInstance instance;
 
@@ -50,7 +53,7 @@ public class GameScreen implements Screen, InputProcessor {
         float scoreX = instance.playField.getX(instance.playField.getCellsWide()) + queueX;
         float scoreY = instance.playField.getY(instance.playField.getCellsHigh()) - instance.playField.getCellSize();
         app.batch.begin();
-        app.font.center(app.batch, "Score: " + instance.score, scoreX, scoreY, 24);
+        app.font.center(app.batch, "Score: " + format.format(instance.score), scoreX, scoreY, 24);
         app.batch.end();
 
     }
