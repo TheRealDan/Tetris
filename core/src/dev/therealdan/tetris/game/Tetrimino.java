@@ -45,6 +45,13 @@ public class Tetrimino {
         }
     }
 
+    public void renderOutline(ShapeRenderer shapeRenderer, float x, float y, float size) {
+        shapeRenderer.set(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(getType().getColor());
+        for (Square square : squares)
+            shapeRenderer.rect(x + square.getX() * size, y + square.getY() * size, size, size);
+    }
+
     public void moveUp() {
         cellY++;
     }

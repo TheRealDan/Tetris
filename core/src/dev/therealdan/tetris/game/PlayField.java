@@ -32,6 +32,21 @@ public class PlayField {
         }
     }
 
+    public void renderPrediction(ShapeRenderer shapeRenderer, GameInstance gameInstance, Tetrimino predict) {
+        int y = 0;
+        loop:
+        while (true) {
+            if (predict.getY() + y <= 0) break loop;
+            for (Square square : predict.getSquares()) {
+                if (predict.getY() + square.getY() + y <= 0) break loop;
+                if (gameInstance.isCellOccupied(predict.getX() + square.getX(), predict.getY() + square.getY() - 1 + y)) break loop;
+            }
+            y--;
+        }
+
+        predict.renderOutline(shapeRenderer, getX(predict.getX()), getY(predict.getY() + y), getCellSize());
+    }
+
     public void resize(float width, float height) {
         cellSize = Math.min(height / (cellsHigh + 2), width / 3f / cellsWide);
         startX = width / 2f - cellsWide * cellSize / 2f;
