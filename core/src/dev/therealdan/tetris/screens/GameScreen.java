@@ -95,24 +95,26 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        if (Input.Keys.LEFT == keycode || Input.Keys.A == keycode) {
-            if (instance.getFallingTetrimino().canMoveLeft(instance))
-                instance.getFallingTetrimino().moveLeft();
-            return true;
-        }
-        if (Input.Keys.RIGHT == keycode || Input.Keys.D == keycode) {
-            if (instance.getFallingTetrimino().canMoveRight(instance))
-                instance.getFallingTetrimino().moveRight();
-            return true;
-        }
-        if (Input.Keys.DOWN == keycode || Input.Keys.S == keycode) {
-            if (instance.getFallingTetrimino().canMoveDown(instance))
-                instance.getFallingTetrimino().moveDown();
-            return true;
-        }
-        if (Input.Keys.R == keycode) {
-            instance.getFallingTetrimino().rotate(instance);
-            return true;
+        if (!instance.gameover) {
+            if (Input.Keys.LEFT == keycode || Input.Keys.A == keycode) {
+                if (instance.getFallingTetrimino().canMoveLeft(instance))
+                    instance.getFallingTetrimino().moveLeft();
+                return true;
+            }
+            if (Input.Keys.RIGHT == keycode || Input.Keys.D == keycode) {
+                if (instance.getFallingTetrimino().canMoveRight(instance))
+                    instance.getFallingTetrimino().moveRight();
+                return true;
+            }
+            if (Input.Keys.DOWN == keycode || Input.Keys.S == keycode) {
+                if (instance.getFallingTetrimino().canMoveDown(instance))
+                    instance.getFallingTetrimino().moveDown();
+                return true;
+            }
+            if (Input.Keys.R == keycode) {
+                instance.getFallingTetrimino().rotate(instance);
+                return true;
+            }
         }
 
         return false;

@@ -16,7 +16,7 @@ public class GameInstance {
 
     private Tetrimino fallingTetrimino;
     private long lastPieceFall = System.currentTimeMillis();
-    private boolean gameover = false;
+    public boolean gameover = false;
     private int linesCleared = 0;
     private int tetris = 0;
 
