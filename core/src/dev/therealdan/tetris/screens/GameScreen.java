@@ -36,11 +36,11 @@ public class GameScreen implements Screen, InputProcessor {
         app.shapeRenderer.begin();
 
         instance.playField.render(app.shapeRenderer);
-        instance.playField.renderPrediction(app.shapeRenderer, instance, instance.getFallingTetrimino());
         for (Tetrimino tetrimino : instance.tetriminos)
             tetrimino.render(app.shapeRenderer, instance.playField);
         for (Square square : instance.squares)
             square.render(app.shapeRenderer, instance.playField);
+        instance.playField.renderPrediction(app.shapeRenderer, instance, instance.getFallingTetrimino());
         instance.getFallingTetrimino().render(app.shapeRenderer, instance.playField);
 
         float queueX = instance.playField.getX(0) / 2f;
