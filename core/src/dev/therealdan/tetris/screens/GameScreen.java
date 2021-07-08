@@ -35,7 +35,6 @@ public class GameScreen implements Screen, InputProcessor {
         app.shapeRenderer.setAutoShapeType(true);
         app.shapeRenderer.begin();
 
-        app.shapeRenderer.setColor(Color.WHITE);
         instance.playField.render(app.shapeRenderer);
         for (Tetrimino tetrimino : instance.tetriminos)
             tetrimino.render(app.shapeRenderer, instance.playField);

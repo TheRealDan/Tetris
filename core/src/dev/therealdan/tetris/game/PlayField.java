@@ -1,5 +1,6 @@
 package dev.therealdan.tetris.game;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class PlayField {
@@ -17,15 +18,26 @@ public class PlayField {
     }
 
     public void render(ShapeRenderer shapeRenderer) {
-        for (int x = 0; x < cellsWide; x++) {
-            for (int y = 0; y < cellsHigh; y++) {
-                shapeRenderer.rect(startX + x * getCellSize(), startY + y * getCellSize(), getCellSize(), getCellSize());
+        for (int x = -1; x <= cellsWide; x++) {
+            for (int y = -1; y <= cellsHigh; y++) {
+                if (x == -1 || x == cellsWide || y == -1 || y == cellsHigh) {
+                    shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
+                    shapeRenderer.setColor(Color.GRAY);
+                    shapeRenderer.rect(startX + x * getCellSize(), startY + y * getCellSize(), getCellSize(), getCellSize());
+                    shapeRenderer.set(ShapeRenderer.ShapeType.Line);
+                    shapeRenderer.setColor(Color.BLACK);
+                    shapeRenderer.rect(startX + x * getCellSize(), startY + y * getCellSize(), getCellSize(), getCellSize());
+                } else {
+                    shapeRenderer.set(ShapeRenderer.ShapeType.Line);
+                    shapeRenderer.setColor(Color.GRAY);
+                    shapeRenderer.rect(startX + x * getCellSize(), startY + y * getCellSize(), getCellSize(), getCellSize());
+                }
             }
         }
     }
 
     public void resize(float width, float height) {
-        cellSize = Math.min(height / cellsHigh, width / 3f / cellsWide);
+        cellSize = Math.min(height / (cellsHigh + 2), width / 3f / cellsWide);
         startX = width / 2f - cellsWide * cellSize / 2f;
         startY = (height - getCellSize() * cellsHigh) / 2f;
     }
