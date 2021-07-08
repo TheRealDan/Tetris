@@ -95,6 +95,12 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        if (Input.Keys.ESCAPE == keycode && instance.gameover) {
+            instance = new GameInstance();
+            instance.playField.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            return true;
+        }
+
         if (!instance.gameover) {
             if (Input.Keys.LEFT == keycode || Input.Keys.A == keycode) {
                 if (instance.getFallingTetrimino().canMoveLeft(instance))
