@@ -25,11 +25,7 @@ public class PlayField {
                     shapeRenderer.setColor(Color.GRAY);
                     shapeRenderer.rect(startX + x * getCellSize(), startY + y * getCellSize(), getCellSize(), getCellSize());
                     shapeRenderer.set(ShapeRenderer.ShapeType.Line);
-                    shapeRenderer.setColor(Color.BLACK);
-                    shapeRenderer.rect(startX + x * getCellSize(), startY + y * getCellSize(), getCellSize(), getCellSize());
-                } else {
-                    shapeRenderer.set(ShapeRenderer.ShapeType.Line);
-                    shapeRenderer.setColor(Color.GRAY);
+                    shapeRenderer.setColor(Color.DARK_GRAY);
                     shapeRenderer.rect(startX + x * getCellSize(), startY + y * getCellSize(), getCellSize(), getCellSize());
                 }
             }
