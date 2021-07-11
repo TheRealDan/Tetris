@@ -16,6 +16,11 @@ public class Menu {
     private float actualWidth;
     private float actualHeight;
 
+    private float minWidth;
+    private float minHeight;
+    private float maxWidth;
+    private float maxHeight;
+
     public void render(ShapeRenderer shapeRenderer) {
         shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.BLACK);
@@ -35,6 +40,16 @@ public class Menu {
         }
     }
 
+    public void setMinimumSize(float minWidth, float minHeight) {
+        this.minWidth = minWidth;
+        this.minHeight = minHeight;
+    }
+
+    public void setMaximumSize(float maxWidth, float maxHeight) {
+        this.maxWidth = maxWidth;
+        this.maxHeight = maxHeight;
+    }
+
     public void setPosition(float x, float y) {
         setPosition(x, y, false);
     }
@@ -50,12 +65,12 @@ public class Menu {
     }
 
     public void resize(float width, float height, float cellSize) {
-        this.width = width;
-        this.height = height;
+        this.width = Math.min(Math.max(width, minWidth), maxWidth);
+        this.height = Math.min(Math.max(height, minHeight), maxHeight);
         this.cellSize = cellSize;
 
-        this.actualWidth = (width + cellSize * 2f) + (cellSize - ((width + cellSize * 2f) % cellSize)) + 1;
-        this.actualHeight = (height + cellSize * 2f) + (cellSize - ((height + cellSize * 2f) % cellSize)) + 1;
+        this.actualWidth = (this.width + cellSize * 2f) + (cellSize - ((this.width + cellSize * 2f) % cellSize)) + 1;
+        this.actualHeight = (this.height + cellSize * 2f) + (cellSize - ((this.height + cellSize * 2f) % cellSize)) + 1;
         this.cellsWide = (int) Math.floor((this.actualWidth - cellSize * 2f) / cellSize);
         this.cellsHigh = (int) Math.floor((this.actualHeight - cellSize * 2f) / cellSize);
     }

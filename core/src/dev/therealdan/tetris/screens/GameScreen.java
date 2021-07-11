@@ -31,6 +31,9 @@ public class GameScreen implements Screen, InputProcessor {
 
         instance = new GameInstance();
         menu = new Menu();
+
+        menu.setMinimumSize(350, 260);
+        menu.setMaximumSize(350, 260);
     }
 
     @Override
@@ -74,8 +77,8 @@ public class GameScreen implements Screen, InputProcessor {
         app.batch.begin();
         app.font.center(app.batch, "Game Over!", menu.getCenterX(), menu.getY() + menu.getHeight() * 0.8f, 42);
         app.font.center(app.batch, "Your Score: " + format.format(instance.score), menu.getCenterX(), menu.getY() + menu.getHeight() * 0.6f, 36);
-        app.font.center(app.batch, "Name", menu.getX() + menu.getWidth() / 5f, menu.getCenterY(), 18);
-        app.font.center(app.batch, app.username + (System.currentTimeMillis() % 1000 > 500 ? "|" : ""), menu.getCenterX(), menu.getCenterY(), 18);
+        app.font.center(app.batch, "Name", menu.getX() + menu.getWidth() / 5f, menu.getY() + menu.getHeight() / 3f, 18);
+        app.font.center(app.batch, app.username + (System.currentTimeMillis() % 1000 > 500 ? "|" : ""), menu.getCenterX(), menu.getY() + menu.getHeight() / 3f, 18);
         app.font.center(app.batch, "Submit", menu.getX() + menu.getWidth() / 3f, menu.getY() + menu.getHeight() * 0.2f, 18);
         app.font.center(app.batch, "Restart", menu.getX() + menu.getWidth() - menu.getWidth() / 3f, menu.getY() + menu.getHeight() * 0.2f, 18);
         app.batch.end();
