@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import dev.therealdan.tetris.game.GameInstance;
 import dev.therealdan.tetris.game.Square;
 import dev.therealdan.tetris.game.Tetrimino;
+import dev.therealdan.tetris.main.Menu;
 import dev.therealdan.tetris.main.TetrisApp;
 import dev.therealdan.tetris.main.scoreapi.Score;
 
@@ -23,10 +24,13 @@ public class GameScreen implements Screen, InputProcessor {
 
     private boolean hideScoreboard = false;
 
+    private Menu menu;
+
     public GameScreen(TetrisApp app) {
         this.app = app;
 
         instance = new GameInstance();
+        menu = new Menu();
     }
 
     @Override
@@ -64,11 +68,24 @@ public class GameScreen implements Screen, InputProcessor {
         }
         app.batch.end();
 
+        app.shapeRenderer.begin();
+        menu.render(app.shapeRenderer);
+        app.shapeRenderer.end();
+        app.batch.begin();
+        app.font.center(app.batch, "Game Over!", menu.getCenterX(), menu.getY() + menu.getHeight() * 0.8f, 42);
+        app.font.center(app.batch, "Your Score: " + format.format(instance.score), menu.getCenterX(), menu.getY() + menu.getHeight() * 0.6f, 36);
+        app.font.center(app.batch, "Name", menu.getX() + menu.getWidth() / 5f, menu.getCenterY(), 18);
+        app.font.center(app.batch, app.username + (System.currentTimeMillis() % 1000 > 500 ? "|" : ""), menu.getCenterX(), menu.getCenterY(), 18);
+        app.font.center(app.batch, "Submit", menu.getX() + menu.getWidth() / 3f, menu.getY() + menu.getHeight() * 0.2f, 18);
+        app.font.center(app.batch, "Restart", menu.getX() + menu.getWidth() - menu.getWidth() / 3f, menu.getY() + menu.getHeight() * 0.2f, 18);
+        app.batch.end();
     }
 
     @Override
     public void resize(int width, int height) {
         instance.playField.resize(width, height);
+        menu.resize(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, instance.playField.getCellSize());
+        menu.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, true);
     }
 
     @Override
