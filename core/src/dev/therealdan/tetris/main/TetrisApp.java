@@ -17,7 +17,7 @@ public class TetrisApp extends Game {
     public ShapeRenderer shapeRenderer;
     public SpriteBatch batch;
 
-    public String username;
+    public String username = "";
 
     @Override
     public void create() {

@@ -71,17 +71,19 @@ public class GameScreen implements Screen, InputProcessor {
         }
         app.batch.end();
 
-        app.shapeRenderer.begin();
-        menu.render(app.shapeRenderer);
-        app.shapeRenderer.end();
-        app.batch.begin();
-        app.font.center(app.batch, "Game Over!", menu.getCenterX(), menu.getY() + menu.getHeight() * 0.8f, 42);
-        app.font.center(app.batch, "Your Score: " + format.format(instance.score), menu.getCenterX(), menu.getY() + menu.getHeight() * 0.6f, 36);
-        app.font.center(app.batch, "Name", menu.getX() + menu.getWidth() / 5f, menu.getY() + menu.getHeight() / 3f, 18);
-        app.font.center(app.batch, app.username + (System.currentTimeMillis() % 1000 > 500 ? "|" : ""), menu.getCenterX(), menu.getY() + menu.getHeight() / 3f, 18);
-        app.font.center(app.batch, "Submit", menu.getX() + menu.getWidth() / 3f, menu.getY() + menu.getHeight() * 0.2f, 18);
-        app.font.center(app.batch, "Restart", menu.getX() + menu.getWidth() - menu.getWidth() / 3f, menu.getY() + menu.getHeight() * 0.2f, 18);
-        app.batch.end();
+        if (instance.gameover) {
+            app.shapeRenderer.begin();
+            menu.render(app.shapeRenderer);
+            app.shapeRenderer.end();
+            app.batch.begin();
+            app.font.center(app.batch, "Game Over!", menu.getCenterX(), menu.getY() + menu.getHeight() * 0.8f, 42);
+            app.font.center(app.batch, "Your Score: " + format.format(instance.score), menu.getCenterX(), menu.getY() + menu.getHeight() * 0.6f, 36);
+            app.font.center(app.batch, "Name", menu.getX() + menu.getWidth() / 5f, menu.getY() + menu.getHeight() / 3f, 18);
+            app.font.center(app.batch, app.username + (System.currentTimeMillis() % 1000 > 500 ? "|" : ""), menu.getCenterX(), menu.getY() + menu.getHeight() / 3f, 18);
+            app.font.center(app.batch, "Submit", menu.getX() + menu.getWidth() / 3f, menu.getY() + menu.getHeight() * 0.2f, 18);
+            app.font.center(app.batch, "Restart", menu.getX() + menu.getWidth() - menu.getWidth() / 3f, menu.getY() + menu.getHeight() * 0.2f, 18);
+            app.batch.end();
+        }
     }
 
     @Override
@@ -115,10 +117,38 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        if (Input.Keys.ESCAPE == keycode && instance.gameover) {
-            instance = new GameInstance();
-            instance.playField.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-            return true;
+        if (instance.gameover) {
+            switch (keycode) {
+                case Input.Keys.ESCAPE:
+                    instance = new GameInstance();
+                    instance.playField.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+                    return true;
+                case Input.Keys.BACKSPACE:
+                    switch (app.username.length()) {
+                        case 0:
+                            break;
+                        case 1:
+                            app.username = "";
+                            break;
+                        default:
+                            app.username = app.username.substring(0, app.username.length() - 1);
+                            break;
+                    }
+                    return true;
+                case Input.Keys.ENTER:
+                    if (app.username.length() >= 3) {
+                        app.scoreAPI.postScore(app.username, instance.score);
+                        instance = new GameInstance();
+                        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+                    }
+                    return true;
+                default:
+                    String key = Input.Keys.toString(keycode);
+                    if ("ABCDEFGHIJKLMNOPQRSTUVWXYZ".contains(key)) {
+                        if (app.username.length() < 16) app.username += key;
+                        return true;
+                    }
+            }
         }
 
         if (!instance.gameover) {

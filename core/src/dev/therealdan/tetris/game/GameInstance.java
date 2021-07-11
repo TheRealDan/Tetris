@@ -10,7 +10,7 @@ public class GameInstance {
     public HashSet<Tetrimino> tetriminos = new HashSet<>();
     public HashSet<Square> squares = new HashSet<>();
     public Deque<Tetrimino.Type> tetriminoQueue = new ArrayDeque<>();
-    public double score = 0;
+    public int score = 0;
 
     private long fallInterval = 1000;
 
