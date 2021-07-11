@@ -171,6 +171,11 @@ public class GameScreen implements Screen, InputProcessor {
                 instance.getFallingTetrimino().rotate(instance);
                 return true;
             }
+            if (Input.Keys.X == keycode) {
+                while (instance.getFallingTetrimino().canMoveDown(instance))
+                    instance.getFallingTetrimino().moveDown();
+                return true;
+            }
         }
 
         return false;
