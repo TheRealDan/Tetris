@@ -42,4 +42,8 @@ public class FontManager implements Disposable {
         if (!fonts.containsKey(fontSize)) generateFont(fontSize);
         return fonts.get(fontSize);
     }
+
+    public float getWidth(SpriteBatch spriteBatch, String text, int fontSize) {
+        return getFont(fontSize).draw(spriteBatch, text, 0, -100).width;
+    }
 }
