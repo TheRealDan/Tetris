@@ -25,12 +25,18 @@ public class GameScreen implements Screen, InputProcessor {
     private boolean hideScoreboard = false;
 
     private Menu menu;
+    private Menu nextUI;
+    private Menu scoreUI;
+    private Menu highsocresUI;
 
     public GameScreen(TetrisApp app) {
         this.app = app;
 
         instance = new GameInstance();
         menu = new Menu();
+        nextUI = new Menu();
+        scoreUI = new Menu();
+        highsocresUI = new Menu();
 
         menu.setMinimumSize(350, 260);
         menu.setMaximumSize(350, 260);
@@ -45,6 +51,10 @@ public class GameScreen implements Screen, InputProcessor {
         app.shapeRenderer.setAutoShapeType(true);
         app.shapeRenderer.begin();
 
+        nextUI.render(app.shapeRenderer);
+        scoreUI.render(app.shapeRenderer);
+        highsocresUI.render(app.shapeRenderer);
+
         instance.playField.render(app.shapeRenderer);
         for (Tetrimino tetrimino : instance.tetriminos)
             tetrimino.render(app.shapeRenderer, instance.playField);
@@ -53,21 +63,24 @@ public class GameScreen implements Screen, InputProcessor {
         instance.playField.renderPrediction(app.shapeRenderer, instance, instance.getFallingTetrimino());
         instance.getFallingTetrimino().render(app.shapeRenderer, instance.playField);
 
-        float queueX = instance.playField.getX(0) / 2f;
-        float queueY = instance.playField.getY(instance.playField.getCellsHigh()) - instance.playField.getCellSize();
+        float scoreX = scoreUI.getCenterX();
+        float scoreY = scoreUI.getCenterY();
+
+        float queueX = nextUI.getCenterX();
+        float queueY = scoreY;
         for (Tetrimino.Type type : instance.tetriminoQueue)
-            new Tetrimino(type, 0, 0).render(app.shapeRenderer, queueX, queueY -= instance.playField.getCellSize() * 4, instance.playField.getCellSize());
+            new Tetrimino(type, 0, 0).render(app.shapeRenderer, queueX, queueY -= instance.playField.getCellSize() * 4 * 0.8f, instance.playField.getCellSize() * 0.8f);
 
         app.shapeRenderer.end();
 
-        float scoreX = instance.playField.getX(instance.playField.getCellsWide()) + queueX;
-        float scoreY = instance.playField.getY(instance.playField.getCellsHigh()) - instance.playField.getCellSize();
         app.batch.begin();
         app.font.center(app.batch, "Next", queueX, scoreY, 24);
         app.font.center(app.batch, "Score: " + format.format(instance.score), scoreX, scoreY, 24);
         if (!hideScoreboard) {
+            float highscoreY = highsocresUI.getY() + highsocresUI.getHeight() - 15;
+            app.font.center(app.batch, "Highscores", scoreX, highscoreY, 12);
             for (Score score : app.scoreAPI.getScores())
-                app.font.center(app.batch, score.Name + ": " + format.format(score.Score), scoreX, scoreY -= 20, 16);
+                app.font.center(app.batch, score.Name + ": " + format.format(score.Score), scoreX, highscoreY -= 20, 12);
         }
         app.batch.end();
 
@@ -89,8 +102,22 @@ public class GameScreen implements Screen, InputProcessor {
     @Override
     public void resize(int width, int height) {
         instance.playField.resize(width, height);
+
         menu.resize(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, instance.playField.getCellSize());
         menu.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, true);
+
+        float playFieldStartX = instance.playField.getX(-1);
+
+        nextUI.resize(playFieldStartX / 2f, Gdx.graphics.getHeight() - instance.playField.getCellSize() * 5f, instance.playField.getCellSize());
+        nextUI.setPosition(playFieldStartX / 2f, Gdx.graphics.getHeight() / 2f, true);
+
+        float playFieldEndX = instance.playField.getX(instance.playField.getCellsWide() + 1);
+
+        scoreUI.resize((Gdx.graphics.getWidth() - playFieldEndX) / 2f, Gdx.graphics.getHeight() * 0.2f, instance.playField.getCellSize());
+        scoreUI.setPosition(playFieldEndX + (Gdx.graphics.getWidth() - playFieldEndX) / 2f, Gdx.graphics.getHeight() - scoreUI.getHeight() - instance.playField.getCellSize() * 2f, true, false);
+
+        highsocresUI.resize((Gdx.graphics.getWidth() - playFieldEndX) / 2f, Gdx.graphics.getHeight() - scoreUI.getHeight() - instance.playField.getCellSize() * 7f, instance.playField.getCellSize());
+        highsocresUI.setPosition(playFieldEndX + (Gdx.graphics.getWidth() - playFieldEndX) / 2f, Gdx.graphics.getHeight() - scoreUI.getHeight() - highsocresUI.getHeight() - instance.playField.getCellSize() * 5f, true, false);
     }
 
     @Override

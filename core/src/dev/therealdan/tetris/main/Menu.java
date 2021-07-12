@@ -16,10 +16,10 @@ public class Menu {
     private float actualWidth;
     private float actualHeight;
 
-    private float minWidth;
-    private float minHeight;
-    private float maxWidth;
-    private float maxHeight;
+    private float minWidth = 0;
+    private float minHeight = 0;
+    private float maxWidth = Float.MAX_VALUE;
+    private float maxHeight = Float.MAX_VALUE;
 
     public void render(ShapeRenderer shapeRenderer) {
         shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
@@ -55,13 +55,15 @@ public class Menu {
     }
 
     public void setPosition(float x, float y, boolean center) {
+        setPosition(x, y, center, center);
+    }
+
+    public void setPosition(float x, float y, boolean centerX, boolean centerY) {
         this.x = x;
         this.y = y;
 
-        if (center) {
-            this.x = x - actualWidth / 2f + cellSize;
-            this.y = y - actualHeight / 2f + cellSize;
-        }
+        if (centerX) this.x = x - actualWidth / 2f + cellSize;
+        if (centerY) this.y = y - actualHeight / 2f + cellSize;
     }
 
     public void resize(float width, float height, float cellSize) {

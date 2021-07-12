@@ -72,4 +72,12 @@ public class PlayField {
     public int getCellsHigh() {
         return cellsHigh;
     }
+
+    public float getWidth() {
+        return cellsWide * getCellSize() + 2 * getCellSize();
+    }
+
+    public float getHeight() {
+        return cellsHigh * getCellSize() + 2 * getCellSize();
+    }
 }
