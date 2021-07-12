@@ -42,6 +42,7 @@ public class ScoreAPI implements Net.HttpResponseListener {
     }
 
     public void postScore(final String name, final int score) {
+        if (score <= 0) return;
         new Thread(new Runnable() {
             @Override
             public void run() {
