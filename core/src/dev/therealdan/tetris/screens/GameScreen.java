@@ -24,7 +24,6 @@ public class GameScreen implements Screen, InputProcessor {
     private Menu scoreUI;
     private Menu highsocresUI;
 
-    private int scoreFontSize = 22;
     private int highscoresFontSize = 12;
 
     public GameScreen(TetrisApp app) {
@@ -73,7 +72,10 @@ public class GameScreen implements Screen, InputProcessor {
 
         app.batch.begin();
         app.font.center(app.batch, "Next", queueX, scoreY, 24);
-        app.font.center(app.batch, "Score: " + Score.format(instance.score), scoreX, scoreY, scoreFontSize);
+
+        String currentScore = "Score: " + Score.format(instance.score);
+        app.font.center(app.batch, currentScore, scoreX, scoreY, app.font.calculateFontSize(app.batch, currentScore, scoreUI.getWidth() - 20));
+
         String longestEntry = "Highscores";
         float highscoreY = highsocresUI.getY() + highsocresUI.getHeight() - 15;
         app.font.center(app.batch, longestEntry, scoreX, highscoreY, highscoresFontSize);
