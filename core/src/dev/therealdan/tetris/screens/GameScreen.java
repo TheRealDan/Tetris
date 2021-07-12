@@ -174,6 +174,7 @@ public class GameScreen implements Screen, InputProcessor {
                         app.scoreAPI.postScore(app.username, instance.score);
                         instance = new GameInstance();
                         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+                        app.scoreAPI.retrieveScores();
                     }
                     return true;
                 default:
