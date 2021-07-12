@@ -71,10 +71,11 @@ public class GameScreen implements Screen, InputProcessor {
         app.shapeRenderer.end();
 
         app.batch.begin();
-        app.font.center(app.batch, "Next", queueX, scoreY, 24);
 
         String currentScore = "Score: " + Score.format(instance.score);
-        app.font.center(app.batch, currentScore, scoreX, scoreY, app.font.calculateFontSize(app.batch, currentScore, scoreUI.getWidth() - 20));
+        int scoreAndNextFontSize = app.font.calculateFontSize(app.batch, currentScore, scoreUI.getWidth() - 20);
+        app.font.center(app.batch, currentScore, scoreX, scoreY, highscoresFontSize);
+        app.font.center(app.batch, "Next", queueX, scoreY, scoreAndNextFontSize);
 
         String longestEntry = "Highscores";
         float highscoreY = highsocresUI.getY() + highsocresUI.getHeight() - 15;
