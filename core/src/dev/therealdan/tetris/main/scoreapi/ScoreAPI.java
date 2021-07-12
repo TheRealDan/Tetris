@@ -75,8 +75,11 @@ public class ScoreAPI implements Net.HttpResponseListener {
     public void handleHttpResponse(Net.HttpResponse httpResponse) {
         try {
             ScoresResponse scoresResponse = json.fromJson(ScoresResponse.class, httpResponse.getResultAsString());
-            scores.clear();
-            scores.addAll(Arrays.asList(scoresResponse.Scores));
+            List<Score> updatedScores = Arrays.asList(scoresResponse.Scores);
+            if (updatedScores.size() > 0) {
+                scores.clear();
+                scores.addAll(updatedScores);
+            }
         } catch (Exception e) {
             //
         }
