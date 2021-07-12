@@ -19,13 +19,12 @@ public class GameScreen implements Screen, InputProcessor {
 
     private GameInstance instance;
 
-    private boolean hideScoreboard = false;
-
     private Menu menu;
     private Menu nextUI;
     private Menu scoreUI;
     private Menu highsocresUI;
 
+    private int scoreFontSize = 22;
     private int highscoresFontSize = 12;
 
     public GameScreen(TetrisApp app) {
@@ -74,17 +73,19 @@ public class GameScreen implements Screen, InputProcessor {
 
         app.batch.begin();
         app.font.center(app.batch, "Next", queueX, scoreY, 24);
-        app.font.center(app.batch, "Score: " + Score.format(instance.score), scoreX, scoreY, 24);
-        if (!hideScoreboard) {
-            float highscoreY = highsocresUI.getY() + highsocresUI.getHeight() - 15;
-            app.font.center(app.batch, "Highscores", scoreX, highscoreY, highscoresFontSize);
+        app.font.center(app.batch, "Score: " + Score.format(instance.score), scoreX, scoreY, scoreFontSize);
+        String longestEntry = "Highscores";
+        float highscoreY = highsocresUI.getY() + highsocresUI.getHeight() - 15;
+        app.font.center(app.batch, longestEntry, scoreX, highscoreY, highscoresFontSize);
+        highscoreY -= highscoresFontSize * 1.5f;
+        for (Score score : app.scoreAPI.getScores()) {
+            if (score.getEntry().length() > longestEntry.length())
+                longestEntry = score.getEntry();
+            app.font.center(app.batch, score.getEntry(), scoreX, highscoreY, highscoresFontSize);
             highscoreY -= highscoresFontSize * 1.5f;
-            for (Score score : app.scoreAPI.getScores()) {
-                app.font.center(app.batch, score.getEntry(), scoreX, highscoreY, highscoresFontSize);
-                highscoreY -= highscoresFontSize * 1.5f;
-                if (highscoreY <= highsocresUI.getY() + 20) break;
-            }
+            if (highscoreY <= highsocresUI.getY() + 20) break;
         }
+        highscoresFontSize = app.font.calculateFontSize(app.batch, longestEntry, highsocresUI.getWidth() - 20);
         app.batch.end();
 
         if (instance.gameover) {
@@ -100,8 +101,6 @@ public class GameScreen implements Screen, InputProcessor {
             app.font.center(app.batch, "Restart", menu.getX() + menu.getWidth() - menu.getWidth() / 3f, menu.getY() + menu.getHeight() * 0.2f, 18);
             app.batch.end();
         }
-
-        calculateHighscoresFontSize();
     }
 
     @Override
@@ -123,21 +122,6 @@ public class GameScreen implements Screen, InputProcessor {
 
         highsocresUI.resize((Gdx.graphics.getWidth() - playFieldEndX) / 2f, Gdx.graphics.getHeight() - scoreUI.getHeight() - instance.playField.getCellSize() * 7f, instance.playField.getCellSize());
         highsocresUI.setPosition(playFieldEndX + (Gdx.graphics.getWidth() - playFieldEndX) / 2f, Gdx.graphics.getHeight() - scoreUI.getHeight() - highsocresUI.getHeight() - instance.playField.getCellSize() * 5f, true, false);
-    }
-
-    private void calculateHighscoresFontSize() {
-        String longestEntry = "";
-        for (Score score : app.scoreAPI.getScores())
-            if (score.getEntry().length() > longestEntry.length())
-                longestEntry = score.getEntry();
-
-        app.batch.begin();
-        for (int fontSize = 12; fontSize <= 40; fontSize++) {
-            float longestEntryWidth = app.font.getWidth(app.batch, longestEntry, fontSize);
-            if (longestEntryWidth >= highsocresUI.getWidth()) break;
-            highscoresFontSize = fontSize;
-        }
-        app.batch.end();
     }
 
     @Override

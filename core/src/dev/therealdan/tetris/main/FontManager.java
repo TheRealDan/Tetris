@@ -46,4 +46,12 @@ public class FontManager implements Disposable {
     public float getWidth(SpriteBatch spriteBatch, String text, int fontSize) {
         return getFont(fontSize).draw(spriteBatch, text, 0, -100).width;
     }
+
+    public int calculateFontSize(SpriteBatch batch, String text, float width) {
+        for (int fontSize = 6; fontSize <= 40; fontSize++) {
+            float longestEntryWidth = getWidth(batch, text, fontSize);
+            if (longestEntryWidth >= width) return fontSize - 1;
+        }
+        return 40;
+    }
 }
