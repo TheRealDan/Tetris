@@ -1,5 +1,8 @@
 package dev.therealdan.tetris.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+
 import java.util.*;
 
 public class GameInstance {
@@ -13,9 +16,11 @@ public class GameInstance {
     public int score = 0;
 
     private long fallInterval = 1000;
+    private long moveDownInterval = 200;
 
     private Tetrimino fallingTetrimino;
     private long lock = System.currentTimeMillis();
+    private long moveDown = System.currentTimeMillis();
     public boolean gameover = false;
     private int linesCleared = 0;
     private int tetris = 0;
@@ -31,6 +36,13 @@ public class GameInstance {
         handleFallingPieces();
         checkClearLines();
         checkStackOverflow();
+
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
+            if (System.currentTimeMillis() - moveDown < moveDownInterval) return;
+            moveDown = System.currentTimeMillis();
+            if (getFallingTetrimino().canMoveDown(this))
+                getFallingTetrimino().moveDown();
+        }
     }
 
     private void fillQueue() {
