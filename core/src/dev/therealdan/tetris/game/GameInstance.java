@@ -15,7 +15,7 @@ public class GameInstance {
     private long fallInterval = 1000;
 
     private Tetrimino fallingTetrimino;
-    private long lastPieceFall = System.currentTimeMillis();
+    private long lock = System.currentTimeMillis();
     public boolean gameover = false;
     private int linesCleared = 0;
     private int tetris = 0;
@@ -57,8 +57,8 @@ public class GameInstance {
     }
 
     private void handleFallingPieces() {
-        if (System.currentTimeMillis() - lastPieceFall < fallInterval) return;
-        lastPieceFall = System.currentTimeMillis();
+        if (System.currentTimeMillis() - lock < fallInterval) return;
+        lock = System.currentTimeMillis();
 
         if (getFallingTetrimino().canMoveDown(this)) {
             getFallingTetrimino().moveDown();
@@ -66,6 +66,11 @@ public class GameInstance {
             tetriminos.add(getFallingTetrimino());
             fallingTetrimino = null;
         }
+    }
+
+    public void lock() {
+        lock = System.currentTimeMillis() - fallInterval * 2;
+        handleFallingPieces();
     }
 
     private void checkClearLines() {
